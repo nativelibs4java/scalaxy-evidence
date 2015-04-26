@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nativelibs4java/scalaxy-annotation.svg?branch=master)](https://travis-ci.org/nativelibs4java/scalaxy-annotation)
+
 Simple typeclasses that check that a given annotation is set (or not) on a given class.
 
 For instance, take `javax.persistence.Entity`: it is set on classes that are JPA entities. A sensible `persist[T]` method should not accept types `T` which do not have an `@Entity` annotation. Also, one may not want to persist entities marked with the `@Deprecated` annotation (which is not retained at runtime).
