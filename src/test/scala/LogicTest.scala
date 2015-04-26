@@ -7,7 +7,7 @@ import org.scalatest.{ FlatSpecLike, Matchers }
 import scala.reflect.runtime.universe._
 import scala.tools.reflect.ToolBoxError
 
-class ProofsTest extends FlatSpecLike with Matchers with MockFactory {
+class LogicTest extends FlatSpecLike with Matchers with MockFactory {
 
   behavior of "scalaxy.evidence on complex predicates"
 
