@@ -1,0 +1,12 @@
+language: scala
+scala:
+- 2.11.6
+git:
+  depth: 1
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.ivy2
+  - $HOME/.sbt
+after_success:
+- '[[ $TRAVIS_BRANCH == "master" ]] && { sbt ++$TRAVIS_SCALA_VERSION publish; };'
