@@ -9,48 +9,59 @@ import scala.tools.reflect.ToolBoxError
 
 class ProofsTest extends FlatSpecLike with Matchers with MockFactory {
 
-  behavior of "scalaxy.evidence"
+  behavior of "scalaxy.evidence on complex predicates"
 
   val decls = q"""
     import scalaxy.evidence._
 
-    class MyAnnotation extends scala.annotation.StaticAnnotation
+    type IsIntegralWithAnds[A] =
+      A <:< AnyVal &&
+      ![A =:= Double] &&
+      ![A =:= Float] &&
+      ![A =:= Boolean] &&
+      ![A =:= Char]
 
-    @MyAnnotation
-    class WithMyAnnotation
+    type IsIntegralWithOrs[A] =
+      (A =:= Int) ||
+      (A =:= Short) ||
+      (A =:= Byte) ||
+      (A =:= Long)
 
-    class WithoutMyAnnotation
+    def takeIntegralWithAnds[A : IsIntegralWithAnds] = ???
+    def takeIntegralWithOrs[A : IsIntegralWithOrs] = ???
   """
 
-  it should "prove HasAnnotation on annotated types" in {
-    toolbox.compile(q"""
-      ..$decls
-      implicitly[HasAnnotation[WithMyAnnotation, MyAnnotation]]
-    """)
-  }
+  val integrals = Seq(
+    ("Int", tq"Int"),
+    ("Long", tq"Long"),
+    ("Short", tq"Short"),
+    ("Byte", tq"Byte"))
 
-  it should "disprove HasAnnotation on types with no annotation" in {
-    a [ToolBoxError] should be thrownBy {
-      toolbox.compile(q"""
-        ..$decls
-        implicitly[HasAnnotation[WithoutMyAnnotation, MyAnnotation]]
-      """)
+  val nonIntegrals = Seq(
+    ("Double", tq"Double"),
+    ("Boolean", tq"Boolean"),
+    ("Char", tq"Char"),
+    ("String", tq"String"))
+
+  for ((name, tpe) <- integrals) {
+    it should s"prove $name is integral with &&" in {
+      toolbox.compile(q"..$decls ; takeIntegralWithAnds[$tpe]")
+    }
+    it should s"prove $name is integral with ||" in {
+      toolbox.compile(q"..$decls ; takeIntegralWithOrs[$tpe]")
     }
   }
 
-  it should "prove HasNoAnnotation on types with no annotation" in {
-    toolbox.compile(q"""
-      ..$decls
-      implicitly[HasNoAnnotation[WithoutMyAnnotation, MyAnnotation]]
-    """)
-  }
-
-  it should "disprove HasNoAnnotation on annotated types" in {
-    a [ToolBoxError] should be thrownBy {
-      toolbox.compile(q"""
-        ..$decls
-        implicitly[HasNoAnnotation[WithMyAnnotation, MyAnnotation]]
-      """)
+  for ((name, tpe) <- nonIntegrals) {
+    it should s"prove $name is not integral with &&" in {
+      a [ToolBoxError] should be thrownBy {
+        toolbox.compile(q"..$decls ; takeIntegralWithAnds[$tpe]")
+      }
+    }
+    it should s"prove $name is not integral with ||" in {
+      a [ToolBoxError] should be thrownBy {
+        toolbox.compile(q"..$decls ; takeIntegralWithOrs[$tpe]")
+      }
     }
   }
 }
