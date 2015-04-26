@@ -17,7 +17,7 @@ class PersistenceExampleTest extends FlatSpecLike with Matchers with MockFactory
 
     type IsEntity[T] = HasAnnotation[T, Entity]
 
-    type IsNotDeprecated[T] = HasNoAnnotation[T, Deprecated]
+    type IsNotDeprecated[T] = ![HasAnnotation[T, Deprecated]]
 
     def serialize[T : IsEntity : IsNotDeprecated](t: T) = ???
   """

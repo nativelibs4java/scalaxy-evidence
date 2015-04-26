@@ -1,29 +1,33 @@
 package scalaxy.annotation
 
 import scala.reflect.macros.blackbox.Context
+import scala.reflect.macros.TypecheckException
 
 package object impl
 {
-  def failIfNoAnnotation[T : c.WeakTypeTag, A : c.WeakTypeTag](c: Context) = {
+  def proveHasAnnotation[T : c.WeakTypeTag, A : c.WeakTypeTag](c: Context) = {
     import c.universe._
+
+    println(s"proveHasAnnotation[${weakTypeOf[A]}, ${weakTypeOf[T]}]")
 
     if (!typeHasAnnotation[T, A](c)) {
       c.error(c.enclosingPosition,
-        "annotation ${weakTypeOf[A]} not found on ${weakTypeOf[T]}")
+        s"annotation ${weakTypeOf[A]} not found on ${weakTypeOf[T]}")
     }
 
     c.Expr[HasAnnotation[T, A]](q"null")
   }
 
-  def failIfAnnotation[T : c.WeakTypeTag, A : c.WeakTypeTag](c: Context) = {
+  def proveNot[T : c.WeakTypeTag](c: Context) = {
     import c.universe._
 
-    if (typeHasAnnotation[T, A](c)) {
+    try {
+      val res = c.typecheck(c.inferImplicitValue(pt = weakTypeOf[T], silent = false))
       c.error(c.enclosingPosition,
-        "annotation ${weakTypeOf[A]} found on ${weakTypeOf[T]}")
-    }
+        s"Failed to prove that ${weakTypeOf[T]} is not proved: $res")
+    } catch { case ex: TypecheckException => }
 
-    c.Expr[HasNoAnnotation[T, A]](q"null")
+    c.Expr[![T]](q"null")
   }
 
   def hasAnnotation[T : c.WeakTypeTag, A : c.WeakTypeTag](c: Context) = {
