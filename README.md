@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nativelibs4java/scalaxy-annotation.svg?branch=master)](https://travis-ci.org/nativelibs4java/scalaxy-annotation)
+[![Build Status](https://travis-ci.org/nativelibs4java/scalaxy-evidence.svg?branch=master)](https://travis-ci.org/nativelibs4java/scalaxy-evidence)
 
 Simple typeclasses that check that a given annotation is set (or not) on a given class.
 
@@ -8,11 +8,11 @@ This is where this library can help you:
 
 ```scala
   import javax.persistence.Entity
-  import scalaxy.annotation._
+  import scalaxy.evidence._
 
   type IsEntity[T] = HasAnnotation[T, Entity]
 
-  type IsNotDeprecated[T] = HasNoAnnotation[T, Deprecated]
+  type IsNotDeprecated[T] = ![HasAnnotation[T, Deprecated]]
 
   def persist[T : IsEntity : IsNotDeprecated](t: T) = ???
 ```
