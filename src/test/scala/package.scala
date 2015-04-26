@@ -1,4 +1,4 @@
-package scalaxy.annotation
+package scalaxy.evidence
 
 package test
 {

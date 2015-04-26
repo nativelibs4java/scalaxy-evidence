@@ -1,4 +1,4 @@
-package scalaxy.annotation
+package scalaxy.evidence
 package test
 
 import org.scalamock.scalatest.MockFactory
@@ -9,9 +9,11 @@ import scala.tools.reflect.ToolBoxError
 
 class ProofsTest extends FlatSpecLike with Matchers with MockFactory {
 
-  behavior of "scalaxy.annotation"
+  behavior of "scalaxy.evidence"
 
   val decls = q"""
+    import scalaxy.evidence._
+
     class MyAnnotation extends scala.annotation.StaticAnnotation
 
     @MyAnnotation
@@ -22,7 +24,6 @@ class ProofsTest extends FlatSpecLike with Matchers with MockFactory {
 
   it should "prove HasAnnotation on annotated types" in {
     toolbox.compile(q"""
-      import scalaxy.annotation._
       ..$decls
       implicitly[HasAnnotation[WithMyAnnotation, MyAnnotation]]
     """)
@@ -31,7 +32,6 @@ class ProofsTest extends FlatSpecLike with Matchers with MockFactory {
   it should "disprove HasAnnotation on types with no annotation" in {
     a [ToolBoxError] should be thrownBy {
       toolbox.compile(q"""
-        import scalaxy.annotation._
         ..$decls
         implicitly[HasAnnotation[WithoutMyAnnotation, MyAnnotation]]
       """)
@@ -40,7 +40,6 @@ class ProofsTest extends FlatSpecLike with Matchers with MockFactory {
 
   it should "prove HasNoAnnotation on types with no annotation" in {
     toolbox.compile(q"""
-      import scalaxy.annotation._
       ..$decls
       implicitly[HasNoAnnotation[WithoutMyAnnotation, MyAnnotation]]
     """)
@@ -49,7 +48,6 @@ class ProofsTest extends FlatSpecLike with Matchers with MockFactory {
   it should "disprove HasNoAnnotation on annotated types" in {
     a [ToolBoxError] should be thrownBy {
       toolbox.compile(q"""
-        import scalaxy.annotation._
         ..$decls
         implicitly[HasNoAnnotation[WithMyAnnotation, MyAnnotation]]
       """)

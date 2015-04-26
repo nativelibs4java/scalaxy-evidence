@@ -1,4 +1,4 @@
-name := "scalaxy-annotation"
+name := "scalaxy-evidence"
 
 organization := "com.nativelibs4java"
 
@@ -29,12 +29,12 @@ scalacOptions ++= Seq(
   "-Xlog-free-types"
 )
 
-homepage := Some(url("https://github.com/nativelibs4java/scalaxy-annotation"))
+homepage := Some(url("https://github.com/nativelibs4java/scalaxy-evidence"))
 
 pomExtra := (
   <scm>
-    <url>git@github.com:nativelibs4java/scalaxy-annotation.git</url>
-    <connection>scm:git:git@github.com:nativelibs4java/scalaxy-annotation.git</connection>
+    <url>git@github.com:nativelibs4java/scalaxy-evidence.git</url>
+    <connection>scm:git:git@github.com:nativelibs4java/scalaxy-evidence.git</connection>
   </scm>
   <developers>
     <developer>

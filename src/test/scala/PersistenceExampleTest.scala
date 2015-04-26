@@ -1,4 +1,4 @@
-package scalaxy.annotation
+package scalaxy.evidence
 package test
 
 import org.scalamock.scalatest.MockFactory
@@ -9,11 +9,11 @@ import scala.tools.reflect.ToolBoxError
 
 class PersistenceExampleTest extends FlatSpecLike with Matchers with MockFactory {
 
-  behavior of "scalaxy.annotation on java annotations"
+  behavior of "scalaxy.evidence on java annotations"
 
   val decls = q"""
     import javax.persistence.Entity
-    import scalaxy.annotation._
+    import scalaxy.evidence._
 
     type IsEntity[T] = HasAnnotation[T, Entity]
 

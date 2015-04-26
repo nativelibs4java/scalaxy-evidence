@@ -1,4 +1,4 @@
-package scalaxy.annotation
+package scalaxy.evidence
 
 import scala.reflect.macros.blackbox.Context
 import scala.reflect.macros.TypecheckException
@@ -7,8 +7,6 @@ package object impl
 {
   def proveHasAnnotation[T : c.WeakTypeTag, A : c.WeakTypeTag](c: Context) = {
     import c.universe._
-
-    println(s"proveHasAnnotation[${weakTypeOf[A]}, ${weakTypeOf[T]}]")
 
     if (!typeHasAnnotation[T, A](c)) {
       c.error(c.enclosingPosition,
