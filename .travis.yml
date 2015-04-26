@@ -12,4 +12,5 @@ after_success:
 - '[[ $TRAVIS_BRANCH == "master" ]] && { sbt ++$TRAVIS_SCALA_VERSION publish; };'
 env:
   global:
-    secure: fKErdhrwCjVbh9g4kvk0chQmvfZzTLyroG+M7OXkqeb76KIfsisZlSltawpl4TjOYkPXqFTVQKMeyZ9+J1Tt77zkaL8pdPYLYB3MpsJv/qIQ0iUX7jij38JOt6GRg+6KVi5oU1d5x3z21DRvscqM9EnhZAGvooN257lwMu3y/Kw=
+  - secure: KBsEU72If21SmJa3FDsh0msLkv6I5UbjDeSOpNUqWe3QuCRu7pNlQkUVq691pPlREaikuEfqYEob3xIZs0qtBKipLoLBkPtckRBEwnOMOT0vCp9dltG2aH8oFKv+HNbJAnQ22GKLrA9p7RPp3jyK993f1mO4j0ikDET0MtjVdos=
+  - secure: VkSpg5IFC8Mjp1aYt4yMsvWkLpXrome5MUkG/j3pwYdYEhv4cBAuG3CsLvRu4RM2ojJMH617Qg7o5/sDtqo7CF6I5qUn0G+cdeG5SNJsyMCz41CcuejMor0HJFxFF6rHsD0JublGFt4WGu8UwBndR8Na2QRRNNFDEsnp2rD3dJg=
