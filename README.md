@@ -24,14 +24,14 @@ Now if you take the following code:
 ```scala
 
 @Entity(name = "...")
-class NewEntity
+class GoodEntity
 
 @Entity(name = "...") @Deprecated
-class OldEntity
+class DeprecatedEntity
 
 class NotAnEntity
 
-serialize(new NewEntity)   // Ok.
-serialize(new OldEntity)   // Error: found @Deprecated on OldEntity
-serialize(new NotAnEntity) // Error: didn't find @Entity on NotAnEntity
+serialize(new GoodEntity)        // Ok.
+serialize(new DeprecatedEntity)  // Error: failed to prove IsNotDeprecated
+serialize(new NotAnEntity)       // Error: failed to prove IsEntity
 ```
