@@ -10,3 +10,6 @@ cache:
   - $HOME/.sbt
 after_success:
 - '[[ $TRAVIS_BRANCH == "master" ]] && { sbt ++$TRAVIS_SCALA_VERSION publish; };'
+env:
+  global:
+    secure: fKErdhrwCjVbh9g4kvk0chQmvfZzTLyroG+M7OXkqeb76KIfsisZlSltawpl4TjOYkPXqFTVQKMeyZ9+J1Tt77zkaL8pdPYLYB3MpsJv/qIQ0iUX7jij38JOt6GRg+6KVi5oU1d5x3z21DRvscqM9EnhZAGvooN257lwMu3y/Kw=

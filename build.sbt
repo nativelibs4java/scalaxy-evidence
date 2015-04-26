@@ -19,7 +19,7 @@ libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-reflect" % _)
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.11" % "2.2.3" % "test",
   "org.scalamock" % "scalamock-scalatest-support_2.11" % "3.1.2" % "test",
-  "javax.persistence" % "persistence-api" % "1.0.2" % "test",
+  "javax.persistence" % "persistence-api" % "1.0.2" % "test"
 )
 
 scalacOptions ++= Seq(
