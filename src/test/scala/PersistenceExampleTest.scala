@@ -7,7 +7,7 @@ import org.scalatest.{ FlatSpecLike, Matchers }
 import scala.reflect.runtime.universe._
 import scala.tools.reflect.ToolBoxError
 
-class ExampleTest extends FlatSpecLike with Matchers with MockFactory {
+class PersistenceExampleTest extends FlatSpecLike with Matchers with MockFactory {
 
   behavior of "scalaxy.annotation on java annotations"
 
@@ -22,29 +22,29 @@ class ExampleTest extends FlatSpecLike with Matchers with MockFactory {
     def serialize[T : IsEntity : IsNotDeprecated](t: T) = ???
   """
 
-  it should "allow serialization of NewEntity" in {
+  it should "allow persistence of GoodEntity" in {
     toolbox.compile(q"""
       ..$decls
 
-      @Entity(name = "NewEntity")
-      class NewEntity
+      @Entity(name = "GoodEntity")
+      class GoodEntity
 
-      serialize(new NewEntity)
+      serialize(new GoodEntity)
     """)
   }
 
-  it should "forbid serialization of OldEntity" in {
+  it should "forbid persistence of DeprecatedEntity" in {
     a [ToolBoxError] should be thrownBy {
       toolbox.compile(q"""
-        @Entity(name = "OldEntity") @Deprecated
-        class OldEntity
+        @Entity(name = "DeprecatedEntity") @Deprecated
+        class DeprecatedEntity
 
-        serialize(new OldEntity)
+        serialize(new DeprecatedEntity)
       """)
     }
   }
 
-  it should "forbid serialization of NotAnEntity" in {
+  it should "forbid persistence of NotAnEntity" in {
     a [ToolBoxError] should be thrownBy {
       toolbox.compile(q"""
         class NotAnEntity
